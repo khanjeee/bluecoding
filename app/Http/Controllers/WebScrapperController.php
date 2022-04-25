@@ -6,6 +6,7 @@ use App\Http\Requests\StoreWebScrapperRequest;
 use App\Http\Requests\UpdateWebScrapperRequest;
 use App\Models\WebScrapper;
 use Goutte\Client;
+use Illuminate\Http\Response;
 
 
 class WebScrapperController extends Controller
@@ -13,7 +14,7 @@ class WebScrapperController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -34,7 +35,7 @@ class WebScrapperController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -44,8 +45,8 @@ class WebScrapperController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreWebScrapperRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreWebScrapperRequest $request
+     * @return Response
      */
     public function store(StoreWebScrapperRequest $request)
     {
@@ -55,8 +56,8 @@ class WebScrapperController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\WebScrapper  $webScrapper
-     * @return \Illuminate\Http\Response
+     * @param WebScrapper $webScrapper
+     * @return Response
      */
     public function show(WebScrapper $webScrapper)
     {
@@ -66,8 +67,8 @@ class WebScrapperController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\WebScrapper  $webScrapper
-     * @return \Illuminate\Http\Response
+     * @param WebScrapper $webScrapper
+     * @return Response
      */
     public function edit(WebScrapper $webScrapper)
     {
@@ -77,9 +78,9 @@ class WebScrapperController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateWebScrapperRequest  $request
-     * @param  \App\Models\WebScrapper  $webScrapper
-     * @return \Illuminate\Http\Response
+     * @param UpdateWebScrapperRequest $request
+     * @param WebScrapper $webScrapper
+     * @return Response
      */
     public function update(UpdateWebScrapperRequest $request, WebScrapper $webScrapper)
     {
@@ -89,8 +90,8 @@ class WebScrapperController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\WebScrapper  $webScrapper
-     * @return \Illuminate\Http\Response
+     * @param WebScrapper $webScrapper
+     * @return Response
      */
     public function destroy(WebScrapper $webScrapper)
     {

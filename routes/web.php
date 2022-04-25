@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebScrapperController;
+use AshAllenDesign\ShortURL\Classes\Builder;
+use AshAllenDesign\ShortURL\Models\ShortURL;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +20,8 @@ use App\Http\Controllers\WebScrapperController;
  * Route for using the shortened url
  * */
 Route::get('shorturl/{urlKey}', function ($urlKey) {
-
-    $url = \AshAllenDesign\ShortURL\Models\ShortURL::where('url_key', $urlKey)->first();
+    $url = ShortURL::where('url_key', $urlKey)->first();
     return redirect()->away($url->destination_url);
-
 });
 
 /**
@@ -29,7 +29,7 @@ Route::get('shorturl/{urlKey}', function ($urlKey) {
  * */
 Route::get('/', function () {
 
-    $urls = \AshAllenDesign\ShortURL\Models\ShortURL::latest()->get();
+    $urls = ShortURL::latest()->get();
     return view('welcome', compact('urls'));
 });
 
@@ -37,30 +37,30 @@ Route::get('/', function () {
  * Route for Insertion
  * */
 Route::post('/', function () {
-    $builder = new \AshAllenDesign\ShortURL\Classes\Builder();
 
-
+    $builder        = new Builder();
     $shortURLObject = $builder->destinationUrl(request()->url)->make();
-    $shortURL = $shortURLObject->default_short_url;
+    $shortURL       = $shortURLObject->default_short_url;
 
-    return back()->with('success','URL shortened successfully. ');
+    return back()->with('success', 'URL shortened successfully. ');
 
 })->name('url.shorten');
 
 /**
  * Route for updating the url
-*/
+ */
 Route::post('{id}', function ($id) {
-    $url = \AshAllenDesign\ShortURL\Models\ShortURL::find($id);
-    $url->url_key = request()->url;
+
+    $url                  = ShortURL::find($id);
+    $url->url_key         = request()->url;
     $url->destination_url = request()->destination;
     $url->save();
 
-    return back()->with('success','URL updated successfully. ');
+    return back()->with('success', 'URL updated successfully. ');
 })->name('update');
 
 /**
  * Route for scrapping the urls
-*/
+ */
 Route::get('scrapper', [WebScrapperController::class, 'index']);
 

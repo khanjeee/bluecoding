@@ -14,14 +14,31 @@ use App\Http\Controllers\WebScrapperController;
 |
 */
 
+/**
+ * Route for using the shortened url
+ * */
+Route::get('shorturl/{urlKey}', function ($urlKey) {
 
+    $url = \AshAllenDesign\ShortURL\Models\ShortURL::where('url_key', $urlKey)->first();
+    return redirect()->away($url->destination_url);
+
+});
+
+/**
+ * Route Displaying list
+ * */
 Route::get('/', function () {
+
     $urls = \AshAllenDesign\ShortURL\Models\ShortURL::latest()->get();
     return view('welcome', compact('urls'));
 });
 
+/**
+ * Route for Insertion
+ * */
 Route::post('/', function () {
     $builder = new \AshAllenDesign\ShortURL\Classes\Builder();
+
 
     $shortURLObject = $builder->destinationUrl(request()->url)->make();
     $shortURL = $shortURLObject->default_short_url;
@@ -30,6 +47,9 @@ Route::post('/', function () {
 
 })->name('url.shorten');
 
+/**
+ * Route for updating the url
+*/
 Route::post('{id}', function ($id) {
     $url = \AshAllenDesign\ShortURL\Models\ShortURL::find($id);
     $url->url_key = request()->url;
@@ -39,8 +59,8 @@ Route::post('{id}', function ($id) {
     return back()->with('success','URL updated successfully. ');
 })->name('update');
 
+/**
+ * Route for scrapping the urls
+*/
+Route::get('scrapper', [WebScrapperController::class, 'index']);
 
-Route::get('home', [WebScrapperController::class, 'index']);
-Route::get('/', function() {
-    return view('welcome');
-});

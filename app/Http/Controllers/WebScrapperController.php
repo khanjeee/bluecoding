@@ -17,15 +17,18 @@ class WebScrapperController extends Controller
      */
     public function index()
     {
-        //$crawler = Client::request('GET', 'https://duckduckgo.com/html/?q=Laravel');
+        //Goutte client instantiated
         $crawler = new Client();
-        $crawler->request('GET', 'https://duckduckgo.com/html/?q=Laravel');
+        $crawler->request('GET', 'http://local.scrapper.com/');
 
-        $crawler->getCrawler()->filter('.result__title .result__a')->each(function ($node) {
-            dump($node->text());
+
+        //adding crawled urls to array
+        $crawledData[] = $crawler->getCrawler()->filter('.url')->each(function ($node) {
+            return $node->text();
         });
 
-    return view('welcome');
+        return view('scrapper')->with('crawledData', $crawledData);
+
     }
 
     /**
